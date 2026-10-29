@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-10-29 to 14:27 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>rTMLE simulation study</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="style.css">
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<header>
+<h1 class="title">rTMLE simulation study</h1>
+<p class="subtitle" role="doc-subtitle">An investigation of the bias in estimation of treatment-specific risks</p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgfc32acf">1. Introduction</a></li>
+<li><a href="#org4968a2c">2. Methods</a>
+<ul>
+<li><a href="#org22f237b">2.1. Data-generating mechanism</a></li>
+<li><a href="#org492687a">2.2. Evaluating true* risk (TR)</a></li>
+<li><a href="#org59cdf41">2.3. Performance measures</a></li>
+</ul>
+</li>
+<li><a href="#org645dfbf">3. Simulation results</a>
+<ul>
+<li><a href="#org14181e2">3.1. Minimal setting</a></li>
+<li><a href="#orgc32b647">3.2. Interactive comparison</a></li>
+</ul>
+</li>
+<li><a href="#org592c7af">4. Additional analyses</a></li>
+<li><a href="#org9c6ff96">5. Discussion</a></li>
+<li><a href="#org5d1fe4d">6. Conclusions</a></li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-orgfc32acf" class="outline-2">
+<h2 id="orgfc32acf"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This study investigates the performance of a longitudinal targeted
+maximum likelihood estimation (rTMLE) implemented in R on simulated
+cohorts. The primary objective is to evaluate the bias of this
+model, compared to the true* risk, in increasingly complicated
+reference scenarios. The hope is to recreate and validate models
+performance on LEADER-like data.
+</p>
+</div>
+</div>
+<div id="outline-container-org4968a2c" class="outline-2">
+<h2 id="org4968a2c"><span class="section-number-2">2.</span> Methods</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org22f237b" class="outline-3">
+<h3 id="org22f237b"><span class="section-number-3">2.1.</span> Data-generating mechanism</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Setting (variables, events and their distributions), Hooks,
+simulate_cohort. Maybe start everything with leader like just no 
+</p>
+</div>
+</div>
+<div id="outline-container-org492687a" class="outline-3">
+<h3 id="org492687a"><span class="section-number-3">2.2.</span> Evaluating true* risk (TR)</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Large cohort. Maybe RMSE from mean for increasing sample size is a
+good plot here (should just be necessary for one t0).
+</p>
+
+
+<figure id="org6f330db">
+<img src="figures/reference_deviations_plot.png" alt="reference_deviations_plot.png">
+
+</figure>
+
+<p>
+Similarly if we change the reference to a different time.
+</p>
+</div>
+</div>
+<div id="outline-container-org59cdf41" class="outline-3">
+<h3 id="org59cdf41"><span class="section-number-3">2.3.</span> Performance measures</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+For an estimator \(\hat{\theta}\) and true parameter
+\(\theta\), the bias is defined as
+</p>
+
+<p>
+\[
+\operatorname{Bias}(\hat{\theta})
+=
+\frac{E[\hat{\theta}] - \theta}{\theta}.
+\]
+</p>
+
+<p>
+RMSE from the same definitions etc. Think makes sense to normaliz
+both cases.
+</p>
+
+<p>
+\[
+RMSE
+=
+\sqrt(\frac{1}{N} \sum_{n} (E_{n}[\hat{\theta}] - \theta)^2)
+\]
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org645dfbf" class="outline-2">
+<h2 id="org645dfbf"><span class="section-number-2">3.</span> Simulation results</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org14181e2" class="outline-3">
+<h3 id="org14181e2"><span class="section-number-3">3.1.</span> Minimal setting</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The minimal simulation setting includes randomized
+treatment assignment (lira or placebo), an absorbing outcome (death),
+and no effects further effects.
+</p>
+
+
+<figure id="org6445334">
+<img src="figures/simple_sim_boxplot.png" alt="simple_sim_boxplot.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>Distribution of estimates across simulations</figcaption>
+</figure>
+</div>
+</div>
+<div id="outline-container-orgc32b647" class="outline-3">
+<h3 id="orgc32b647"><span class="section-number-3">3.2.</span> Interactive comparison</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The figure below allows inspection of estimates
+across simulation settings.
+</p>
+
+<iframe
+  class="simulation-widget"
+  src="widgets/minimal_interactive.html"
+  title="Interactive simulation results"
+  loading="lazy">
+</iframe>
+</div>
+</div>
+</div>
+<div id="outline-container-org592c7af" class="outline-2">
+<h2 id="org592c7af"><span class="section-number-2">4.</span> Additional analyses</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="minimal.html">Detailed minimal simulation results</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org9c6ff96" class="outline-2">
+<h2 id="org9c6ff96"><span class="section-number-2">5.</span> Discussion</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Interpretation of the simulation results.
+</p>
+</div>
+</div>
+<div id="outline-container-org5d1fe4d" class="outline-2">
+<h2 id="org5d1fe4d"><span class="section-number-2">6.</span> Conclusions</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Summary of the main findings.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2026-10-29 to 14:27</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

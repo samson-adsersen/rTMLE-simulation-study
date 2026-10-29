@@ -1,9 +1,9 @@
-### pubclish_site.R --- 
+### build_html.R --- 
 #----------------------------------------------------------------------
 ## Author: 
-## Created: okt 29 2026 (10:11) 
+## Created: okt 29 2026 (11:54) 
 ## Version: 
-## Last-Updated: okt 29 2026 (10:11) 
+## Last-Updated: okt 29 2026 (11:58) 
 ##           By: SADS0006
 ##     Update #: 1
 #----------------------------------------------------------------------
@@ -15,7 +15,20 @@
 ## 
 ### Code:
 
+targets::tar_make()
+source("scripts/publish_site.R")
+
+status <- system2(
+    "emacs",
+    args = c("--batch", "-Q", "-l", "publish.el")
+)
+
+if (status != 0) {
+    stop("Org to html publication failed")}
+
+message("html generated in docs/")
+
 
 
 ######################################################################
-### pubclish_site.R ends here
+### build_html.R ends here

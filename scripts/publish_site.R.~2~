@@ -1,0 +1,93 @@
+### publish_site.R --- 
+#----------------------------------------------------------------------
+## Author: 
+## Created: okt 29 2026 (10:19) 
+## Version: 
+## Last-Updated: okt 29 2026 (12:16) 
+##           By: SADS0006
+##     Update #: 8
+#----------------------------------------------------------------------
+## 
+### Commentary: 
+## 
+### Change Log:
+#----------------------------------------------------------------------
+## 
+### Code:
+
+pckgs <- c("targets", "ggplot2", "plotly", "htmlwidgets", "data.table",
+           "pandoc")
+invisible(suppressWarnings(lapply(pckgs, library, character.only = TRUE)))
+
+# Create output directories
+dir.create("website/figures",
+           recursive = TRUE, showWarnings = FALSE)
+
+dir.create("website/widgets",
+           recursive = TRUE, showWarnings = FALSE)
+
+# Read existing simulation results
+results <- as.data.table(
+    tar_read(simple_sim_results)
+)
+
+# Construct treatment effect difference
+results[, difference := rTMLE - naive]
+
+# Static figure
+p <- ggplot(
+    results,
+    aes(
+        x = factor(n),
+        y = difference,
+        fill = interaction(selector, alpha)
+    )
+) +
+    geom_boxplot() +
+    geom_hline(
+        yintercept = 0,
+        linetype = "dashed"
+    ) +
+    labs(
+        x = "Sample size",
+        y = "Difference in estimated risk",
+        fill = "Learner"
+    ) +
+    theme_minimal(base_size = 13)
+
+ggsave(
+    filename = "website/figures/minimal_boxplot.png",
+    plot = p,
+    width = 9,
+    height = 5,
+    dpi = 180
+)
+
+# Interactive version
+interactive_plot <- ggplotly(p)
+
+saveWidget(
+    widget = interactive_plot,
+    file = "website/widgets/minimal_interactive.html",
+    selfcontained = FALSE
+)
+
+# Summary table
+summary_results <- results[
+    ,
+    .(
+        mean_difference = mean(difference, na.rm = TRUE),
+        sd_difference = sd(difference, na.rm = TRUE),
+        simulations = .N
+    ),
+    by = .(n, selector, alpha)
+]
+
+fwrite(
+    summary_results,
+    "website/simulation_summary.csv"
+)
+
+
+######################################################################
+### publish_site.R ends here
