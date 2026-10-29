@@ -138,3 +138,61 @@ iframe.simulation-widget {
     height: 450px;
   }
 }
+
+
+/* ==========================================
+   Desktop layout with navigation sidebar
+   ========================================== */
+
+@media (min-width: 1350px) {
+
+  body {
+    max-width: 1100px;
+    margin-left: max(300px, calc(50% - 380px));
+    margin-right: 40px;
+  }
+
+  #table-of-contents {
+    position: fixed;
+    top: 40px;
+    left: max(30px, calc(50% - 680px));
+
+    width: 240px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+
+    margin: 0;
+    padding: 15px 20px;
+
+    background: transparent;
+    border-left: 2px solid var(--line);
+
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  #table-of-contents h2 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  #table-of-contents ul {
+    list-style: none;
+    padding-left: 12px;
+  }
+
+  #table-of-contents li {
+    margin: 8px 0;
+  }
+
+  #table-of-contents a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  #table-of-contents a:hover {
+    color: var(--accent);
+  }
+}
