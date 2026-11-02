@@ -18,21 +18,13 @@ performance on LEADER-like data.
 
 * Methods
 
+
 ** Data-generating mechanism
 
 Setting (variables, events and their distributions), Hooks,
-simulate_cohort. Maybe start everything with leader like just no 
+simulate_cohort. Maybe start everything with leader like data - just no
 
-** Evaluating true* risk (TR)
-
-Large cohort. Maybe RMSE from mean for increasing sample size is a
-good plot here (should just be necessary for one t0).
-
-file:figures/reference_deviations_plot.png
-
-Similarly if we change the reference to a different time.
-
-
+Could print example register cohort.
 
 ** Performance measures
 
@@ -41,29 +33,51 @@ $\theta$, the bias is defined as
 
 \[
 \operatorname{Bias}(\hat{\theta})
-=
-\frac{E[\hat{\theta}] - \theta}{\theta}.
+= E[\hat{\theta}] - \theta.
 \]
-
-RMSE from the same definitions etc. Think makes sense to normaliz
-both cases.
 
 \[
-RMSE
+\operatorname{RMSE}(\hat{\theta}, \theta^{*})
 =
-\sqrt(\frac{1}{N} \sum_{n} (E_{n}[\hat{\theta}] - \theta)^2)
+\sqrt{\frac{1}{N} \sum_{n} \left(E_{n}[\hat{\theta}] - \theta^{*}\right)^2}
 \]
+
+** Evaluating true* risk (TR)
+
+Large cohort. Maybe RMSE from mean for increasing sample size is a
+good plot here (should just be necessary for one t0).
+
+#+CAPTION: RMSE (normalized) from the mean risk for increasing sample sizes.
+file:figures/reference_deviations_plot.png
+
+Similarly if we change the reference to a different time.
 
 * Simulation results
 
 ** Minimal setting
 
-The minimal simulation setting includes randomized
+The minimal simulation setting initialy includes a randomized
 treatment assignment (lira or placebo), an absorbing outcome (death),
-and no effects further effects.
+and no effects beyond treatment to outome.
 
-#+CAPTION: Distribution of estimates across simulations
-[[file:figures/simple_sim_boxplot.png]]
+#+CAPTION: Distribution of RMSE of rTMLE estimates from reference for increasing sample sizes
+[[file:figures/rmse00.png]]
+
+#+CAPTION: Distribution of difference between estimate and reference across simulations
+[[file:figures/boxplot00.png]]
+
+Then, censoring is introduced in the form of the absorbing event dropout.
+
+#+CAPTION: Distribution of RMSE of rTMLE estimates from reference for increasing sample sizes
+[[file:figures/rmse0ce.png]]
+
+#+CAPTION: Distribution of difference between estimate and reference across simulations
+[[file:figures/boxplot0ce.png]]
+
+Then, confounding.
+
+Then, both censoring and confounding.
+
 
 ** Interactive comparison
 

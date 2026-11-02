@@ -3,9 +3,9 @@
 ## Author: 
 ## Created: okt 29 2026 (10:19) 
 ## Version: 
-## Last-Updated: okt 29 2026 (14:31) 
-##           By: SADS0006
-##     Update #: 25
+## Last-Updated: Nov  2 2026 (13:13) 
+##           By: Samson Alfred Adsersen
+##     Update #: 35
 #----------------------------------------------------------------------
 ## 
 ### Commentary: 
@@ -15,8 +15,7 @@
 ## 
 ### Code:
 
-pckgs <- c("targets", "ggplot2", "plotly", "htmlwidgets", "data.table",
-           "pandoc")
+pckgs <- c("targets", "ggplot2", "plotly", "htmlwidgets", "data.table")
 invisible(suppressWarnings(lapply(pckgs, library, character.only = TRUE)))
 
 # Create output directories
@@ -29,15 +28,15 @@ dir.create("website/widgets",
 # Read existing simulation results
 figs <- as.data.table(
     tar_read(fig_names)
-)
+)$V1
 
 invisible(suppressWarnings(lapply(figs, function(fig){
     ggsave(
-    filename = paste0("website/figures/",fig,".png"),
-    plot = targets::tar_read_raw(fig),
-    width = 8,
-    height = 5,
-    dpi = 300)})))
+        filename = paste0("website/figures/",fig,".png"),
+        plot = targets::tar_read_raw(fig),
+        width = 8,
+        height = 5,
+        dpi = 300)})))
 
 
 ## # Interactive version
