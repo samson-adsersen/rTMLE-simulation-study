@@ -14,4 +14,9 @@ confounding, starts/stops in treatment, dropout, competing outcomes.
 ** DONE Minimal || baseline --> outcome (no effects)
 CLOSED: [2026-10-01 to 10:54]
 ** TODO without visit for minimal. Not super important for now.
-
+** TODO Improve plotting functionality - every parameter needs to be specified on it - as well as fix labels/titles
+** DONE Setting for scenarios should be accesible right next to them
+CLOSED: [2026-11-12 to 14:27]
+** TODO Make sure terminology is consistent.
+** DONE display equations for relevant terms
+CLOSED: [2026-11-12 to 14:27]

@@ -3,9 +3,9 @@
 ## Author: 
 ## Created: jun  2 2026 (12:44) 
 ## Version: 
-## Last-Updated: okt 29 2026 (11:08) 
+## Last-Updated: nov 12 2026 (10:31) 
 ##           By: SADS0006
-##     Update #: 52
+##     Update #: 53
 #----------------------------------------------------------------------
 ## 
 ### Commentary: 
@@ -223,15 +223,15 @@ if (FALSE) {
     p$parameter_values$scale_cv.death <- 1/1000
     p$parameter_values$scale_stroke <- 1/1000
 
-    # Important effects (Covariates on ...)
-    p$parameter_values$effect_age_all.cause.mortality <- 1/100
-    p$parameter_values$effect_diabetesduration_all.cause.mortality <- 1/100
-    p$parameter_values$effect_age_cv.death <- 1/100
-    p$parameter_values$effect_diabetesduration_cv.death <- 1/100
+    ## # Important effects (Covariates on ...)
+    ## p$parameter_values$effect_age_all.cause.mortality <- 1/100
+    ## p$parameter_values$effect_diabetesduration_all.cause.mortality <- 1/100
+    ## p$parameter_values$effect_age_cv.death <- 1/100
+    ## p$parameter_values$effect_diabetesduration_cv.death <- 1/100
 
-    # Important effects (Events on ...)
-    p$parameter_values$effect_stroke_cv.death <- 1/100
-    p$parameter_values$effect_heart.failure_cv.death <- 1/100
+    ## # Important effects (Events on ...)
+    ## p$parameter_values$effect_stroke_cv.death <- 1/100
+    ## p$parameter_values$effect_heart.failure_cv.death <- 1/100
 
     # Visit schedule
     p$visit_schedule$sd <- 1/10

@@ -196,3 +196,186 @@ iframe.simulation-widget {
     color: var(--accent);
   }
 }
+
+/* Inline equation references */
+.math-tooltip {
+  position: relative;
+  display: inline-block;
+  color: var(--accent);
+  border-bottom: 1px dotted var(--accent);
+  cursor: help;
+}
+
+/* Hidden equation popup */
+.math-tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  z-index: 100;
+
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: max-content;
+  max-width: min(550px, 90vw);
+  padding: 16px 20px;
+
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+/* Show equation on hover or keyboard focus */
+.math-tooltip:hover .math-tooltip-content,
+.math-tooltip:focus .math-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/* Scenario inspector */
+
+.scenario-inspector {
+  margin: 12px 0 24px;
+  font-size: 0.9rem;
+}
+
+.scenario-inspector > summary {
+  display: inline-block;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: 1px dotted var(--accent);
+  list-style: none;
+}
+
+.scenario-inspector > summary::-webkit-details-marker {
+  display: none;
+}
+
+.scenario-inspector > summary::before {
+  content: "▸ ";
+}
+
+.scenario-inspector[open] > summary::before {
+  content: "▾ ";
+}
+
+.scenario-inspector-body {
+  margin-top: 14px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+}
+
+/* Individual panels */
+
+.scenario-panel {
+  margin: 6px 0;
+}
+
+.scenario-panel > summary {
+  cursor: pointer;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  padding: 8px 0;
+}
+
+.scenario-panel[open] > summary {
+  color: var(--accent);
+}
+
+/* Parameter groups */
+
+.scenario-group {
+  margin: 14px 0 20px;
+}
+
+.scenario-group h4 {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Tables */
+
+.scenario-inspector table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.scenario-inspector th,
+.scenario-inspector td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.scenario-inspector td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.scenario-inspector code {
+  font-size: 0.8rem;
+  background: transparent;
+}
+
+.scenario-table-scroll {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.scenario-table-scroll th {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+}
+
+/* Main inspector */
+.scenario-inspector {
+  margin: 12px 0 24px;
+  font-size: 1rem;
+}
+
+/* Expandable section headings */
+.scenario-panel > summary {
+  cursor: pointer;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  padding: 8px 0;
+}
+
+/* Parameter group headings */
+.scenario-group h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Tables */
+.scenario-inspector table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+/* Parameter names */
+.scenario-inspector code {
+  font-size: 0.95rem;
+  background: transparent;
+}

@@ -23,7 +23,9 @@
          :publishing-function org-html-publish-to-html
          :with-toc t
          :section-numbers t
-         :html-head-include-default-style nil)
+         :html-head-include-default-style nil
+         :html-head-extra
+         "<script src=\"equations.js\" defer></script>")
 
         ("simulation-assets"
          :base-directory ,my/site-source
@@ -36,12 +38,8 @@
          :components
          ("simulation-pages" "simulation-assets"))))
 
-;; Publish everything
-;;#(org-publish "simulation-website" t)
-
 ;; Publish quietly
 (let ((inhibit-message t)
       (message-log-max nil)
       (org-publish-list-skipped-files nil))
   (org-publish "simulation-website" nil))
-

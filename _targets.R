@@ -3,9 +3,9 @@
 ## Author: Sams
 ## Created: okt  8 2026 (13:03) 
 ## Version: 
-## Last-Updated: Nov  2 2026 (16:56) 
-##           By: Samson Alfred Adsersen
-##     Update #: 175
+## Last-Updated: nov 12 2026 (15:21) 
+##           By: SADS0006
+##     Update #: 219
 #----------------------------------------------------------------------
 ## 
 ### Commentary: 
@@ -18,24 +18,20 @@
 pckgs <- c("targets", "tarchetypes")
 invisible(suppressWarnings(lapply(pckgs, library, character.only =  TRUE)))
 
-## targets::tar_source(
-##     c("c:/Users/sads0006/Desktop/rtmle/R/",
-##       "c:/Users/sads0006/Desktop/rTMLE-simulation-study/R/"
-##       ))
-
 targets::tar_source(
-             c("~/Desktop/Steno/rtmle/R/",
-               "~/Desktop/Steno/rTMLE-simulation-study/R/"))
+    c("c:/Users/sads0006/Desktop/rtmle/R/",
+      "c:/Users/sads0006/Desktop/rTMLE-simulation-study/R/"
+      ))
 
-
+## targets::tar_source(
+##              c("~/Desktop/Steno/rtmle/R/",
+##                "~/Desktop/Steno/rTMLE-simulation-study/R/"))
 
 #-----------------------------------------------------------------------------
 #-----------------------------Helper-functions--------------------------------
 #-----------------------------------------------------------------------------
 
 simple_run <- function(setting, n, selector, alpha){
-    browser()
-    1
     learner <- list(
         name = paste("glmnet", selector, alpha, sep = "_"),
         fun = "learn_glmnet",
@@ -48,7 +44,7 @@ simple_run <- function(setting, n, selector, alpha){
                 n = n,
                 post_baseline_visit_hook = randomize_baseline_treatment
             ),
-            p
+            setting
         )
     )
     naive_risk <- naive_risk_est(d, 1.5, c("lira", "placebo"), "death")
@@ -61,78 +57,6 @@ simple_run <- function(setting, n, selector, alpha){
     out[]
 }
 
-plot_rmse <- function(data, x, y, names, title) { 
-ggplot2::ggplot(
-                         data,ggplot2::aes(
-                                                   x = .data[[x]],
-                                                   y = .data[[y]],
-                                                   color = interaction(selector, alpha)
-                                               )
-                     ) +
-                ggplot2::geom_line() +
-                ggplot2::geom_point() +
-                ggplot2::geom_hline(
-                             yintercept = 0,
-                             linetype = "dashed"
-                         ) +
-                ggplot2::labs(
-                             x = names[1],
-                             y = names[2],
-                             color = "Learner",
-                             title = title
-                         ) +
-                ggplot2::theme_minimal() +
-                ggplot2::theme(
-                             plot.title = ggplot2::element_text(hjust = 0.5)
-                         )       
-}
-
-plot_boxplot_comparison <- function(data, n, y, names, title,
-                                    limits, sep) {
-    # Filter to selected sample size (TJEK: for some reason this does not work)
-    data <- data[data[["n"]] == n]
-
-    # Create learner labels
-    data[["learner"]] <- paste(
-        "glmnet",
-        data[["selector"]],
-        data[["alpha"]],
-        sep = "_"
-    )
-    ggplot2::ggplot(
-        data,
-        ggplot2::aes(
-            x = learner,
-            y = .data[[y]],
-            fill = learner
-        )
-    ) +
-        ggplot2::geom_boxplot() +
-        ggplot2::geom_hline(
-            yintercept = 0,
-            linetype = "dashed"
-        ) +
-        ggplot2::labs(
-            x = "Learner",
-            y = names[2],
-            fill = "Learner",
-            title = paste0(title, " (n = ", n, ")")
-        ) +
-        ggplot2::theme_minimal() +
-        ggplot2::theme(
-            plot.title = ggplot2::element_text(hjust = 0.5),
-            axis.text.x = ggplot2::element_text(
-                angle = 45,
-                hjust = 1
-            )
-        ) +
-        ggplot2::scale_y_continuous(
-            limits = limits,
-            breaks = seq(limits[1], limits[2], by = sep)
-        )
-}
-
-
 #-----------------------------------------------------------------------------
 #-----------------------------Main-Analysis-----------------------------------
 #-----------------------------------------------------------------------------
@@ -141,6 +65,7 @@ plot_boxplot_comparison <- function(data, n, y, names, title,
 targets::tar_option_set(packages = c("data.table"))
 
 list(
+    
     tar_target(
         name = fig_names,
         command = {
@@ -150,6 +75,62 @@ list(
               "boxplot0ce",
               "rmse0ce")
         }),
+
+    tar_target(
+        name = example_cohort_minimal,
+        command = {
+            p <- get_minimal_setting()
+            do.call(
+                simulate_cohort,
+                c(
+                    list(
+                        n = 1000,
+                        post_baseline_visit_hook = randomize_baseline_treatment
+                    ),
+                    p
+                ))}),
+
+    
+    tar_target(
+        name = example_cohort_LEADER,
+        command = {
+            p <- get_LEADER_setting()
+            # Baseline distributions
+            p$parameter_values$intercept_age <- 60
+            p$parameter_values$var_age <- 10
+            p$parameter_values$intercept_bmi <- 32
+            p$parameter_values$var_bmi <- 4
+            p$parameter_values$intercept_egfr <- log(70)
+            p$parameter_values$var_egfr <- 0.4
+            p$parameter_values$intercept_diabetesduration <- log(10) 
+            p$parameter_values$var_diabetesduration <- 0.3
+            p$parameter_values$intercept_hba1c_level <- log(48)
+            p$parameter_values$var_hba1c_level <- 0.4
+            # Measurement distributions
+            p$parameter_values$intercept_hba1c_change <- 0
+            p$parameter_values$var_hba1c_change <- 10
+            # Potentially add the other changing measurements.
+            p$parameter_values$intercept_bmi_change <- 0
+            p$parameter_values$var_bmi_change <- 1
+            p$parameter_values$intercept_egfr_change <- 0
+            p$parameter_values$var_egfr_change <- 10
+            # Scale of events
+            p$parameter_values$scale_dropout <- 0
+            p$parameter_values$scale_all.cause.mortality <- 1/1000
+            p$parameter_values$scale_cv.death <- 1/1000
+            p$parameter_values$scale_stroke <- 1/1000
+            # Visit schedule
+            p$visit_schedule$sd <- 1/10
+            p$visit_schedule$minimum_time_between_visits <- 1/10
+            do.call(
+                simulate_cohort,
+                c(
+                    list(
+                        n = 1000,
+                        post_baseline_visit_hook = randomize_baseline_treatment
+                    ),
+                    p
+                ))}),
     
     #-------------------------------------------------------------------------
     #-------------------------Reference-Calculations--------------------------
@@ -295,11 +276,32 @@ list(
             data <- data.table::as.data.table(results00)
             reference <- as.numeric(reference_minimal)
             summary_data <- data[,
-                                 .(rmse = sqrt(mean((rTMLE-reference)^2))/reference, na.rm = TRUE
-                                   ),
+                                 .(rmse = sqrt(mean((rTMLE-reference)^2))/reference,
+                                   na.rm = TRUE),
                                  by = .(n, selector, alpha)]
-            plot_rmse(summary_data, "n", "rmse", c("Sample size", "RMSE"),
-                      "RMSE for increasing sample sizes")
+            naive_data <- data[,
+                               .(rmse = sqrt(mean((naive-reference)^2))/reference,
+                                 na.rm = TRUE),
+                               by = .(n)]
+            plot <- plot_rmse(data = summary_data,
+                              x = "n",
+                              y = "rmse",
+                              title = "Relative RMSE of estimated treatment effects",
+                              subtitle = "Liraglutide vs placebo \u00B7 Reference scenario",
+                              y_label = "Relative RMSE",
+                              caption = paste(
+                                  "100 simulation runs per configuration.",
+                                  "Reference: simulated true treatment effect."
+                              ))
+            p_updated <- plot +
+                ggplot2::geom_line(
+                             data = naive_data,
+                             mapping = ggplot2::aes(x = n, y = rmse, linetype = "Naive estimates"),
+                             color = "grey",
+                             linetype = "dashed",
+                             linewidth = 1.2,
+                             inherit.aes = FALSE
+                             )
         }
     ),
 
@@ -310,9 +312,15 @@ list(
             data <- data.table::as.data.table(results00)
             reference <- as.numeric(reference_minimal)
             data <- data[n == 10000, norm_diff := (rTMLE - reference)/reference]
-            plot_boxplot_comparison(data, n = 10000, "norm_diff", c("Sample sizes", "Normalized difference wrt. reference"),
-                                    "Bias by different learner specs", c(-1,1), 0.1)
-    }),
+            plot_boxplot_comparison(data = data, n = 10000,
+                                    y = "norm_diff",
+                                    title = "Distribution of relative treatment-effect errors",
+                                    subtitle = "Liraglutide vs placebo \u00B7 Reference scenario",
+                                    y_label = "Relative estimation error",
+                                    caption = "Dashed line indicates zero estimation error.",
+                                    limits = c(-0.5, 0.5),
+                                    sep = 0.1)
+        }),
 
     #-------------------------Adding-censoring--------------------------------
 
@@ -360,10 +368,31 @@ list(
                                  .(rmse = sqrt(mean((rTMLE-reference)^2))/reference, na.rm = TRUE
                                    ),
                                  by = .(n, selector, alpha)]
-            plot_rmse(summary_data, "n", "rmse", c("Sample size", "RMSE"),
-                      "RMSE for increasing sample sizes")
-        }
-    ),
+            KM_data <- data[,
+                               .(rmse = sqrt(mean((KM-reference)^2))/reference,
+                                 na.rm = TRUE),
+                               by = .(n)]
+            plot <- plot_rmse(data = summary_data,
+                              x = "n",
+                              y = "rmse",
+                              title = "Relative RMSE of estimated treatment effects",
+                              subtitle = "Liraglutide vs placebo \u00B7 Reference scenario",
+                              y_label = "Relative RMSE",
+                              caption = paste(
+                                  "100 simulation runs per configuration.",
+                                  "Reference: simulated true treatment effect."
+                              ))
+        p_updated <- plot +
+            ggplot2::geom_line(
+                         data = KM_data,
+                         mapping = ggplot2::aes(x = n, y = rmse, linetype = "KM estimates"),
+                         color = "grey",
+                         linetype = "dashed",
+                         linewidth = 1.2,
+                         inherit.aes = FALSE
+                     )
+    }
+),
 
     # Boxplot comparing bias for different model/samplesize combinations
     tar_target(
@@ -372,8 +401,14 @@ list(
             data <- data.table::as.data.table(results0ce)
             reference <- as.numeric(reference_minimal)
             data <- data[n == 10000, norm_diff := (rTMLE - reference)/reference]
-            plot_boxplot_comparison(data, n = 10000, "norm_diff", c("Sample sizes", "Normalized difference wrt. reference_minimal"),
-                                    "Bias by different learner specs", c(-1,1), 0.1)
+            plot_boxplot_comparison(data = data, n = 10000,
+                                    y = "norm_diff",
+                                    title = "Distribution of relative treatment-effect errors",
+                                    subtitle = "Liraglutide vs placebo \u00B7 Reference scenario",
+                                    y_label = "Relative estimation error",
+                                    caption = "Dashed line indicates zero estimation error.",
+                                    limits = c(-0.5, 0.5),
+                                    sep = 0.1)
         }),
 
 
@@ -398,22 +433,22 @@ list(
         }
     ),
 
-    # Simulation results
-    tarchetypes::tar_map_rep(
-                     name = results0co,
-                     command = {
+    ## # Simulation results
+    ## tarchetypes::tar_map_rep(
+    ##                  name = results0co,
+    ##                  command = {
                          
-                         results <- simple_run(
-                             simple_with_confounding, n, selector, alpha
-                         )
-                     },
-                     values = tidyr::expand_grid(
-                                         n = c(500, 2000, 5000, 10000),
-                                         selector = c("min", "1se", "undersmooth"),
-                                         alpha = c(0, 0.5, 1)
-                                     ),
-                     reps = 4
-                 )
+    ##                      results <- simple_run(
+    ##                          simple_with_confounding, n, selector, alpha
+    ##                      )
+    ##                  },
+    ##                  values = tidyr::expand_grid(
+    ##                                      n = c(500, 2000, 5000, 10000),
+    ##                                      selector = c("min", "1se", "undersmooth"),
+    ##                                      alpha = c(0, 0.5, 1)
+    ##                                  ),
+    ##                  reps = 4
+    ##              )
 
     
     ## # Graph for bias vs samplesize
@@ -454,6 +489,20 @@ list(
     #-------------------------1st-Extension-----------------------------------
     #-------------------------------------------------------------------------
 
+
+    #-------------------------------------------------------------------------
+    #-------------------------Scenario-Inspectors-----------------------------
+    #-------------------------------------------------------------------------
+
+    tar_target(
+        simple_scenario_inspector,
+        generate_scenario_inspector(
+            setting = simple_setting,
+            cohort = example_cohort_minimal,
+            name = "simple_scenario"
+        ),
+        format = "file"
+    )
     
 
 )
