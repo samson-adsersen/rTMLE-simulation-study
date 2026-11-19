@@ -45,26 +45,12 @@ no effects yet - thoughts Thomas?
 
 Right now there are two available settings. The minimal with limited
 amount of variables, and a LEADER setting with every variable of the actual
-study included with distributions that seemed to make sense to me. The cohorts
-generated with simulate_cohort.R look something like this;
+study included with distributions that seemed to make sense to me.
 
-#+begin_src R :session *R* :results output
-
-#+end_src
-
-#+RESULTS:
-
-#+begin_src R :session *R* :results output
-
-#+end_src
-
-#+RESULTS:
-
-The main difference
-is the fact that the minimal is limited in time to baseline, one visit, and an
-outcome. However am considering to just have everything be LEADER based but
-change the scenario through the visit_schedule and max_follow i.e. by varying
-the included time interval.
+The main difference is the fact that the minimal is limited in time to baseline,
+one visit, and an outcome. However am considering to just have everything be
+LEADER based but change the scenario through the visit_schedule and max_follow
+i.e. by varying the included time interval.
 
 ** Performance measures
 
@@ -87,27 +73,16 @@ E[\hat{\theta}(t)] - \theta(t)
 }
 \]
 
-where $E[\hat{\theta}(t)]$ denotes the expected value of the estimator across
-repeated simulations. In practice, bias is estimated using the average of the
-estimates across the $N$ simulation runs:
-
-\[
-\boxed{
-\widehat{\operatorname{Bias}}(t)
-=
-\frac{1}{N}\sum_{n=1}^{N}\hat{\theta}_n(t) - \theta(t)
-}
-\]
-
-To express the bias relative to the magnitude of the true parameter, the
-/relative bias/ is defined as
+where $E[\hat{\theta}(t)]$ denotes the expected value of the estimator. In
+practice the bias will be looked at run-by-run. To express the bias relative to
+the magnitude of the true parameter, the /relative bias/ is defined as
 
 \[
 \boxed{
 \widehat{\operatorname{Relative\ Bias}}(t)
 =
 \frac{
-\frac{1}{N}\sum_{n=1}^{N}\hat{\theta}_n(t) - \theta(t)
+E[\hat{\theta}_n(t)] - \theta(t)
 }{|\theta(t) |}}
 \]
 
@@ -188,37 +163,28 @@ file:figures/reference_deviations_plot.png
 Similarly if we change the reference to a different time (will include these as
 well - suspect convergence will happen quicker w.r.t. increases in sample size.
 
+** Additional important parameters
+time-step of risk assesment $t_{0}$
+number of covariates $p$
+number of time-dependent covariates $p_{t}$
+censoring $CENS$ true or false
+competing risk $COMP$ true or false
+number of initial confounding variables $c$
+number of time-dependent confounding variables $c_{t}$
+
+
+
 * Simulation results
 
-** Minimal setting
+[[file:reference.org][Initial reference scenario]]
+
+Extended refrence scenario maybe.
+
+[[file:LEADER.org][LEADER like scenario]]
 
 
-** Minimal simulation scenario
-
-The reference scenario considers two treatment protocols,
-LIRA and PLACEBO, with death as the outcome.
-
-#+INCLUDE: "generated/simple_scenario.html" export html
 
 
-#+CAPTION: Distribution of {{{rrmse}}} of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the naive estimates
-[[file:figures/rmse00.png]]
-
-#+CAPTION: Distribution of {{{bias}}} between estimate and reference across simulations
-[[file:figures/boxplot00.png]]
-
-Then, an additional absorbing outcome (censoring) is introduced in the form of
-dropout. The 
-
-#+CAPTION: Distribution of {{{rrmse}}} of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the KM estimates
-[[file:figures/rmse0ce.png]]
-
-#+CAPTION: Distribution of {{{bias}}} estimate and reference across simulations
-[[file:figures/boxplot0ce.png]]
-
-Then, confounding.
-
-Then, both censoring and confounding.
 
 
 # ** Interactive comparison
@@ -234,10 +200,6 @@ Then, both censoring and confounding.
 #   loading="lazy">
 # </iframe>
 # #+END_EXPORT
-
-* Additional analyses
-
-[[file:minimal.org][Detailed minimal simulation results]]
 
 * Discussion
 

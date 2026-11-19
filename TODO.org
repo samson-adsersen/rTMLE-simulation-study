@@ -7,7 +7,8 @@ CLOSED: [2026-10-22 to 12:27]
 as far as i can tell it is fine as is. The thoughts of Thomas are for different hook
 ** DONE setup boxplot functions and general simulation result framework in the targets file
 CLOSED: [2026-10-25 Sun 13:01]
-** TODO ask thomas - forgot which steps made most sense
+** DONE ask thomas - forgot which steps made most sense
+CLOSED: [2026-11-19 to 10:08]
 confounding, starts/stops in treatment, dropout, competing outcomes.
 
 ** TODO introduce confounding effects. Fits well with treatment update hook
@@ -17,6 +18,13 @@ CLOSED: [2026-10-01 to 10:54]
 ** TODO Improve plotting functionality - every parameter needs to be specified on it - as well as fix labels/titles
 ** DONE Setting for scenarios should be accesible right next to them
 CLOSED: [2026-11-12 to 14:27]
-** TODO Make sure terminology is consistent.
 ** DONE display equations for relevant terms
 CLOSED: [2026-11-12 to 14:27]
+
+** DONE Look at single protocol regime as well - make clear which
+CLOSED: [2026-11-19 to 15:15]
+** TODO In title could display the (time for risk est) t=3, (number of covariates) p=5, (time varying covariates) tp=8, uncensored, no competing risks, no baseline confounding, no time-dependent confounding
+** TODO number of simulated datasets in boxplots and RMSE (encoded in max(reps) i guess?)
+** DONE for boxplots maybe make able to switch plots between different sample sizes
+CLOSED: [2026-11-19 to 15:15]
+** TODO something weird is happening with the interactive boxplots - or data - they are not around 0. Think maybe plotting rmse

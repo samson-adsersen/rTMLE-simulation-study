@@ -256,10 +256,6 @@ iframe.simulation-widget {
   list-style: none;
 }
 
-.scenario-inspector > summary::-webkit-details-marker {
-  display: none;
-}
-
 .scenario-inspector > summary::before {
   content: "▸ ";
 }

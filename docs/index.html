@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-11-12 to 15:21 -->
+<!-- 2026-11-19 to 14:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>rTMLE simulation study</title>
@@ -56,17 +56,12 @@
 <li><a href="#org22f237b">2.1. Data-generating mechanism</a></li>
 <li><a href="#org59cdf41">2.2. Performance measures</a></li>
 <li><a href="#org492687a">2.3. Evaluating true* risk (TR)</a></li>
+<li><a href="#org5d9e0bf">2.4. Additional important parameters</a></li>
 </ul>
 </li>
-<li><a href="#org645dfbf">3. Simulation results</a>
-<ul>
-<li><a href="#org14181e2">3.1. Minimal setting</a></li>
-<li><a href="#orgce0730c">3.2. Minimal simulation scenario</a></li>
-</ul>
-</li>
-<li><a href="#org592c7af">4. Additional analyses</a></li>
-<li><a href="#org9c6ff96">5. Discussion</a></li>
-<li><a href="#org5d1fe4d">6. Conclusions</a></li>
+<li><a href="#org645dfbf">3. Simulation results</a></li>
+<li><a href="#org9c6ff96">4. Discussion</a></li>
+<li><a href="#org5d1fe4d">5. Conclusions</a></li>
 </ul>
 </div>
 </nav>
@@ -119,16 +114,14 @@ no effects yet - thoughts Thomas?
 <p>
 Right now there are two available settings. The minimal with limited
 amount of variables, and a LEADER setting with every variable of the actual
-study included with distributions that seemed to make sense to me. The cohorts
-generated with simulate_cohort.R look something like this;
+study included with distributions that seemed to make sense to me.
 </p>
 
 <p>
-The main difference
-is the fact that the minimal is limited in time to baseline, one visit, and an
-outcome. However am considering to just have everything be LEADER based but
-change the scenario through the visit_schedule and max_follow i.e. by varying
-the included time interval.
+The main difference is the fact that the minimal is limited in time to baseline,
+one visit, and an outcome. However am considering to just have everything be
+LEADER based but change the scenario through the visit_schedule and max_follow
+i.e. by varying the included time interval.
 </p>
 </div>
 </div>
@@ -161,24 +154,9 @@ E[\hat{\theta}(t)] - \theta(t)
 </p>
 
 <p>
-where \(E[\hat{\theta}(t)]\) denotes the expected value of the estimator across
-repeated simulations. In practice, bias is estimated using the average of the
-estimates across the \(N\) simulation runs:
-</p>
-
-<p>
-\[
-\boxed{
-\widehat{\operatorname{Bias}}(t)
-=
-\frac{1}{N}\sum_{n=1}^{N}\hat{\theta}_n(t) - \theta(t)
-}
-\]
-</p>
-
-<p>
-To express the bias relative to the magnitude of the true parameter, the
-<i>relative bias</i> is defined as
+where \(E[\hat{\theta}(t)]\) denotes the expected value of the estimator. In
+practice the bias will be looked at run-by-run. To express the bias relative to
+the magnitude of the true parameter, the <i>relative bias</i> is defined as
 </p>
 
 <p>
@@ -187,7 +165,7 @@ To express the bias relative to the magnitude of the true parameter, the
 \widehat{\operatorname{Relative\ Bias}}(t)
 =
 \frac{
-\frac{1}{N}\sum_{n=1}^{N}\hat{\theta}_n(t) - \theta(t)
+E[\hat{\theta}_n(t)] - \theta(t)
 }{|\theta(t) |}}
 \]
 </p>
@@ -290,7 +268,7 @@ true value at some finite sample size.
 </p>
 
 
-<figure id="org319f338">
+<figure id="orgf0442d5">
 <img src="figures/reference_deviations_plot.png" alt="reference_deviations_plot.png">
 
 <figcaption><span class="figure-number">Figure 1: </span><span data-equation="relative-rmse">relative RMSE</span> of estimates over 10 seeds from the mean risk estimate for increasing sample sizes.</figcaption>
@@ -302,19 +280,34 @@ well - suspect convergence will happen quicker w.r.t. increases in sample size.
 </p>
 </div>
 </div>
+<div id="outline-container-org5d9e0bf" class="outline-3">
+<h3 id="org5d9e0bf"><span class="section-number-3">2.4.</span> Additional important parameters</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+time-step of risk assesment \(t_{0}\)
+number of covariates \(p\)
+number of time-dependent covariates \(p_{t}\)
+censoring \(CENS\) true or false
+competing risk \(COMP\) true or false
+number of initial confounding variables \(c\)
+number of time-dependent confounding variables \(c_{t}\)
+</p>
+</div>
+</div>
 </div>
 <div id="outline-container-org645dfbf" class="outline-2">
 <h2 id="org645dfbf"><span class="section-number-2">3.</span> Simulation results</h2>
 <div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-org14181e2" class="outline-3">
-<h3 id="org14181e2"><span class="section-number-3">3.1.</span> Minimal setting</h3>
-</div>
+<p>
+<a href="reference.html">Initial reference scenario</a>
+</p>
 
 
-<div id="outline-container-orgce0730c" class="outline-3">
-<h3 id="orgce0730c"><span class="section-number-3">3.2.</span> Minimal simulation scenario</h3>
-<div class="outline-text-3" id="text-3-2">
+<p>
+<a href="LEADER.html">LEADER like scenario</a>
+</p>
+
+
 <p>
 The reference scenario considers two treatment protocols,
 LIRA and PLACEBO, with death as the outcome.
@@ -337,17 +330,17 @@ LIRA and PLACEBO, with death as the outcome.
 
 
 
-<figure id="orga21dbc3">
+<figure id="orga95cfcb">
 <img src="figures/rmse00.png" alt="rmse00.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>Distribution of <span data-equation="relative-rmse">relative RMSE</span> of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the naive estimates</figcaption>
 </figure>
 
 
-<figure id="org1ded30c">
+<figure id="orgc399951">
 <img src="figures/boxplot00.png" alt="boxplot00.png">
 
-<figcaption><span class="figure-number">Figure 3: </span>Distribution of <span data-equation="bias">bias</span> between estimate and reference across simulations</figcaption>
+<figcaption><span class="figure-number">Figure 3: </span>Distribution of <span data-equation="relative-bias">relative bias</span> between estimate and reference across simulations</figcaption>
 </figure>
 
 <p>
@@ -356,17 +349,17 @@ dropout. The
 </p>
 
 
-<figure id="orgd2f214b">
+<figure id="org1536cda">
 <img src="figures/rmse0ce.png" alt="rmse0ce.png">
 
 <figcaption><span class="figure-number">Figure 4: </span>Distribution of <span data-equation="relative-rmse">relative RMSE</span> of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the KM estimates</figcaption>
 </figure>
 
 
-<figure id="orgf99626a">
+<figure id="orgbd3712f">
 <img src="figures/boxplot0ce.png" alt="boxplot0ce.png">
 
-<figcaption><span class="figure-number">Figure 5: </span>Distribution of <span data-equation="bias">bias</span> estimate and reference across simulations</figcaption>
+<figcaption><span class="figure-number">Figure 5: </span>Distribution of <span data-equation="relative-bias">relative bias</span> estimate and reference across simulations</figcaption>
 </figure>
 
 <p>
@@ -378,26 +371,17 @@ Then, both censoring and confounding.
 </p>
 </div>
 </div>
-</div>
-<div id="outline-container-org592c7af" class="outline-2">
-<h2 id="org592c7af"><span class="section-number-2">4.</span> Additional analyses</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-<a href="minimal.html">Detailed minimal simulation results</a>
-</p>
-</div>
-</div>
 <div id="outline-container-org9c6ff96" class="outline-2">
-<h2 id="org9c6ff96"><span class="section-number-2">5.</span> Discussion</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="org9c6ff96"><span class="section-number-2">4.</span> Discussion</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 Interpretation of the simulation results.
 </p>
 </div>
 </div>
 <div id="outline-container-org5d1fe4d" class="outline-2">
-<h2 id="org5d1fe4d"><span class="section-number-2">6.</span> Conclusions</h2>
-<div class="outline-text-2" id="text-6">
+<h2 id="org5d1fe4d"><span class="section-number-2">5.</span> Conclusions</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Summary of the main findings.
 </p>
@@ -405,7 +389,7 @@ Summary of the main findings.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2026-11-12 to 15:21</p>
+<p class="date">Created: 2026-11-19 to 14:34</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

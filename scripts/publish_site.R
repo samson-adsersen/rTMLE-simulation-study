@@ -3,9 +3,9 @@
 ## Author: 
 ## Created: okt 29 2026 (10:19) 
 ## Version: 
-## Last-Updated: Nov  2 2026 (13:13) 
-##           By: Samson Alfred Adsersen
-##     Update #: 35
+## Last-Updated: nov 19 2026 (14:33) 
+##           By: SADS0006
+##     Update #: 38
 #----------------------------------------------------------------------
 ## 
 ### Commentary: 
@@ -25,19 +25,18 @@ dir.create("website/figures",
 dir.create("website/widgets",
            recursive = TRUE, showWarnings = FALSE)
 
-# Read existing simulation results
-figs <- as.data.table(
-    tar_read(fig_names)
-)$V1
+## # Read existing simulation results
+## figs <- as.data.table(
+##     tar_read(fig_names)
+## )$V1
 
-invisible(suppressWarnings(lapply(figs, function(fig){
-    ggsave(
-        filename = paste0("website/figures/",fig,".png"),
-        plot = targets::tar_read_raw(fig),
-        width = 8,
-        height = 5,
-        dpi = 300)})))
-
+## invisible(suppressWarnings(lapply(figs, function(fig){
+##     ggsave(
+##         filename = paste0("website/figures/",fig,".png"),
+##         plot = targets::tar_read_raw(fig),
+##         width = 8,
+##         height = 5,
+##         dpi = 300)})))
 
 ## # Interactive version
 ## interactive_plot <- ggplotly(p)

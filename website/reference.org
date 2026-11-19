@@ -1,0 +1,64 @@
+#+OPTIONS: toc:2 num:t ^:nil
+#+OPTIONS: html-style:nil html5-fancy:t
+#+HTML_DOCTYPE: html5
+#+HTML_HEAD: <link rel="stylesheet" href="style.css">
+#+PROPERTY: header-args:R :session *R* :exports results
+#+MACRO: bias @@html:<span data-equation="bias">bias</span>@@
+#+MACRO: rbias @@html:<span data-equation="relative-bias">relative bias</span>@@
+#+MACRO: rmse @@html:<span data-equation="rmse">RMSE</span>@@
+#+MACRO: rrmse @@html:<span data-equation="relative-rmse">relative RMSE</span>@@
+
+
+The reference scenario considers two treatment protocols,
+LIRA and PLACEBO, with death as the outcome.
+
+#+INCLUDE: "generated/simple_scenario.html" export html
+
+#+CAPTION: Caption {{rrmse}}
+#+BEGIN_EXPORT html
+<iframe
+    src="widgets/rmse00.html"
+    width="100%"
+    height="600"
+    style="border:none;">
+</iframe>
+#+END_EXPORT
+
+#+CAPTION: Caption  {{rbias}}
+#+BEGIN_EXPORT html
+<iframe
+    src="widgets/boxplot00.html"
+    width="100%"
+    height="600"
+    style="border:none;">
+</iframe>
+#+END_EXPORT
+
+
+
+
+#+CAPTION: Distribution of {{{rrmse}}} of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the naive estimates
+[[file:figures/rmse00.png]]
+
+#+CAPTION: Distribution of {{{rbias}}} between estimate and reference across simulations
+[[file:figures/boxplot00.png]]
+
+
+
+
+
+Then, an additional absorbing outcome (censoring) is introduced in the form of
+dropout. The 
+
+#+CAPTION: Distribution of {{{rrmse}}} of rTMLE estimates from reference for increasing sample sizes. Dashed line indicates that of the KM estimates
+[[file:figures/rmse0ce.png]]
+
+#+CAPTION: Distribution of {{{rbias}}} estimate and reference across simulations
+[[file:figures/boxplot0ce.png]]
+
+Then, confounding.
+
+Then, both censoring and confounding.
+
+
+
